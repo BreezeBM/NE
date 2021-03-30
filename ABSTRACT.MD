@@ -24,3 +24,36 @@ resolver에 metadata가 없으면 그건 resolver가 public resolver.라는 뜻�
 **메타데이터**는 **resolver의 extra data다**.
 
 이후에는 role decorator를 사용했다. authentication은 끝이다. 왜냐면 여기 authorization guard에 보면 app guard이기 때문에 모든 곳에 적용되고 그건 nestjs가 멋지기 때문이다. 이 app Guard가 작동하는 방법은이런거다. 일단 **reflector**에서 roles key를 가져오고, 이 때 key는 **SetMetadata의 key의 이름**과 일치 해야 한다. 왜냐면 키 밸류로 저장이 되기 때문이다.
+
+# 10.9 Edit Restaurant part Three
+
+**Custom Repository** 직접 funtions을 정의할 수 있게 해준다.
+
+# 10.13 Categories part Two
+
+```
+type Category {
+  id: ...
+  createdAt: ...
+  updatedAt: ...
+  ...
+  ...
+  ...
+  ...
+  restaurantCount: ...
+}
+```
+
+restaurantCount의 **부모는 Category이다**. 여기서 parent를 받아와야 한다. 니코의 경우에는 "mexican food"라고 넣어 놓고 count가 80인데, 이때 Count의 부모는 mexican-food이고
+
+Note the corresponding use of the **@Parent()** method parameter decorator to then extract a reference to that parent object in the field resolver.
+
+```
+@ResolveField((type) => Int)
+  retaurantCount(@Parent() category: Category): number {
+    console.log(category);
+    return 80;
+  }
+```
+
+이렇게 해서 콘솔을 확인해 보면 category를 다 가져오는 것을 확인 할 수가 있다. 즉 category를 받아옴.
